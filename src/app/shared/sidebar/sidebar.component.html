@@ -26,7 +26,7 @@
               <a [routerLink]="['/account-settings']" routerLinkActive="active">Account Setting</a>
             </li>
             <li>
-              <a [routerLink]="['/login']">Logout</a>
+              <a href="#" (click)="userService.logout()">Logout</a>
             </li>
           </ul>
         </li>
