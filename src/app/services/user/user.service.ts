@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { environment } from '../../../environments/environment';
 
 import { Usuario } from '../../models/usuario.model';
-import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { UploadFileService } from '../upload-file/upload-file.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +17,12 @@ export class UserService {
   user: Usuario;
   token: string;
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private uploadFileService: UploadFileService
+  ) {
     this.loadUserData();
-  }
-
-  crearUsuario(usuario: Usuario): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}usuario`, usuario);
   }
 
   login(usuario: Usuario, recuerdame: boolean = false) {
@@ -82,5 +84,33 @@ export class UserService {
       this.token = '';
       this.user = null;
     }
+  }
+
+  createUser(usuario: Usuario): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}usuario`, usuario);
+  }
+
+  updateUser(usuario: Usuario): Observable<any> {
+    return this.http
+      .put<any>(
+        `${this.baseUrl}usuario/${usuario._id}?token=${this.token}`,
+        usuario
+      )
+      .pipe(
+        map((res: any) => {
+          this.saveUserData(res.usuario._id, this.token, res.usuario);
+          return res;
+        })
+      );
+  }
+
+  uploadFile(file: File, id: string) {
+    return from(this.uploadFileService.uploadFile(file, 'usuarios', id)).pipe(
+      map((response: any) => {
+        this.user.img = response.usuario.img;
+        this.saveUserData(id, this.token, this.user);
+        return response;
+      })
+    );
   }
 }

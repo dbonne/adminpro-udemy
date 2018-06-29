@@ -67,7 +67,7 @@ export class RegisterComponent implements OnInit {
 
     if (this.registerForm.valid) {
       this.user = Object.assign({}, this.registerForm.value);
-      this.userService.crearUsuario(this.user).subscribe(
+      this.userService.createUser(this.user).subscribe(
         () => this.router.navigate(['/login']),
         error => {
           console.log(error);
