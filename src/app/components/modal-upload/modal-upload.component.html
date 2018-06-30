@@ -11,7 +11,7 @@
         <div class="modal-body" align="center">
           <img *ngIf="!tempFile" [src]="null | imagen" class="w150">
           <img *ngIf="tempFile" [src]="tempFile" class="w150">
-          <input (change)="selectImage($event.target.files[0])" type="file">
+          <input #input (change)="selectImage($event.target.files[0])" type="file">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" (click)="closeModal()" data-dismiss="modal">Cerrar</button>
