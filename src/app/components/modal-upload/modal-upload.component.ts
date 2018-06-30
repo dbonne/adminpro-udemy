@@ -1,6 +1,4 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { Usuario } from '../../models/usuario.model';
-import { UserService } from '../../services/user/user.service';
 import { UploadFileService } from '../../services/upload-file/upload-file.service';
 import { ModalUploadService } from './modal-upload.service';
 

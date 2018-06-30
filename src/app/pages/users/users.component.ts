@@ -54,7 +54,6 @@ export class UsersComponent implements OnInit {
   }
 
   nextPage(from: number) {
-    console.log(`Total: ${this.total}, From ${this.from + from}`);
     if (this.from + from < 0) {
       return;
     } else if (this.from + from >= this.total) {

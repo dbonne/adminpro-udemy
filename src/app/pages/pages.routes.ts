@@ -11,6 +11,8 @@ import { LoginGuard } from '../services/guards/login.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './users/users.component';
 import { UserListResolver } from '../resolvers/userlist.resolver';
+import { HospitalesComponent } from './hospitales/hospitales.component';
+import { HospitalesListResolver } from '../resolvers/hospitales.resolver';
 
 const pagesRoutes: Routes = [
   {
@@ -57,6 +59,14 @@ const pagesRoutes: Routes = [
           busqueda: UserListResolver
         },
         data: { titulo: 'Mantenimiento de usuarios' }
+      },
+      {
+        path: 'hospitales',
+        component: HospitalesComponent,
+        resolve: {
+          busqueda: HospitalesListResolver
+        },
+        data: { titulo: 'Mantenimiento de hospitales' }
       },
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
     ]

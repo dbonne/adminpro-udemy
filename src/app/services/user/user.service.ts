@@ -120,7 +120,7 @@ export class UserService {
     if (start > 0) {
       url += `?desde=${start}`;
     }
-    return this.http.get<BusquedaUsuarios>(url).pipe(delay(500));
+    return this.http.get<BusquedaUsuarios>(url);
   }
 
   search(term: string): Observable<Usuario[]> {

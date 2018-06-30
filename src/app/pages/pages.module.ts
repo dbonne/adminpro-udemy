@@ -20,6 +20,7 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { UsersComponent } from './users/users.component';
 import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
+import { HospitalesComponent } from './hospitales/hospitales.component';
 
 // Routes
 import { PAGES_ROUTES } from './pages.routes';
@@ -37,7 +38,8 @@ import { PAGES_ROUTES } from './pages.routes';
     RxjsComponent,
     ProfileComponent,
     UsersComponent,
-    ModalUploadComponent
+    ModalUploadComponent,
+    HospitalesComponent
   ],
   exports: [DashboardComponent, ProgressComponent, Graficas1Component],
   imports: [
