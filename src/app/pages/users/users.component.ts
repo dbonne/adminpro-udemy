@@ -1,16 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject, BehaviorSubject } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  finalize,
-  tap
-} from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 
 import { Usuario } from '../../models/usuario.model';
 import { UserService } from '../../services/user/user.service';
 import { ModalUploadService } from '../../components/modal-upload/modal-upload.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -22,14 +17,20 @@ export class UsersComponent implements OnInit {
   from = 0;
   total = 0;
   loading = false;
-  termsSubject: BehaviorSubject<string> = new BehaviorSubject<string>('');
+  termsSubject: Subject<string> = new Subject<string>();
 
   constructor(
     private userService: UserService,
-    private modalUploadService: ModalUploadService
+    private modalUploadService: ModalUploadService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.route.data.subscribe(data => {
+      this.users = data['busqueda'].usuarios;
+      this.total = data['busqueda'].total;
+    });
+
     this.termsSubject
       .pipe(
         debounceTime(300),
@@ -39,6 +40,7 @@ export class UsersComponent implements OnInit {
       .subscribe(res => {
         this.doSearch(res);
       });
+
     this.modalUploadService.notification.subscribe(() => this.loadUsers());
   }
 
@@ -70,8 +72,6 @@ export class UsersComponent implements OnInit {
   private doSearch(term: string) {
     if (term) {
       this.loading = true;
-      this.total = 0;
-      this.from = 0;
       this.userService.search(term).subscribe(data => {
         this.users = data;
         this.loading = false;
@@ -104,9 +104,8 @@ export class UsersComponent implements OnInit {
             'Usuario eliminado',
             `El usuario ${user.nombre} se ha eliminado correctamente.`,
             'success'
-          );
+          ).then(() => this.loadUsers());
         });
-        this.loadUsers();
       }
     });
   }
@@ -125,7 +124,7 @@ export class UsersComponent implements OnInit {
             'Usuario actualizado',
             `El usuario ${user.nombre} se ha actualizado correctamente.`,
             'success'
-          );
+          ).then(() => this.loadUsers());
         });
       }
     });
