@@ -18,6 +18,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProgressComponent } from './progress/progress.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { UsersComponent } from './users/users.component';
+import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
 
 // Routes
 import { PAGES_ROUTES } from './pages.routes';
@@ -33,7 +35,9 @@ import { PAGES_ROUTES } from './pages.routes';
     AccountSettingsComponent,
     PromesasComponent,
     RxjsComponent,
-    ProfileComponent
+    ProfileComponent,
+    UsersComponent,
+    ModalUploadComponent
   ],
   exports: [DashboardComponent, ProgressComponent, Graficas1Component],
   imports: [

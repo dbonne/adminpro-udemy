@@ -71,8 +71,6 @@ export class LoginComponent implements OnInit {
       this.userService
         .login(this.user, this.loginForm.get('recuerdame').value)
         .subscribe(() => this.router.navigate(['/dashboard']));
-    } else {
-      console.log('Formulario inválido');
     }
   }
 }

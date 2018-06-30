@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
     if (this.user.google) {
       this.user.email = user.email;
     }
-    this.userService.updateUser(this.user).subscribe(
+    this.userService.update(this.user).subscribe(
       response => {
         swal('Usuario actualizado', user.nombre, 'success');
       },

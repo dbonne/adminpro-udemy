@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { map, delay } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 
 import { Usuario } from '../../models/usuario.model';
 import { UploadFileService } from '../upload-file/upload-file.service';
+import { BusquedaUsuarios } from '../../models/busquedaUsuarios.model';
 
 @Injectable({
   providedIn: 'root'
@@ -86,11 +87,11 @@ export class UserService {
     }
   }
 
-  createUser(usuario: Usuario): Observable<any> {
+  create(usuario: Usuario): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}usuario`, usuario);
   }
 
-  updateUser(usuario: Usuario): Observable<any> {
+  update(usuario: Usuario): Observable<any> {
     return this.http
       .put<any>(
         `${this.baseUrl}usuario/${usuario._id}?token=${this.token}`,
@@ -112,5 +113,28 @@ export class UserService {
         return response;
       })
     );
+  }
+
+  loadAll(start: number = 0): Observable<BusquedaUsuarios> {
+    let url = `${this.baseUrl}usuario`;
+    if (start > 0) {
+      url += `?desde=${start}`;
+    }
+    return this.http.get<BusquedaUsuarios>(url).pipe(delay(500));
+  }
+
+  search(term: string): Observable<Usuario[]> {
+    return this.http
+      .get<BusquedaUsuarios>(`${this.baseUrl}busqueda/coleccion/usuarios/${term}`)
+      .pipe(
+        delay(500),
+        map(res => {
+          return res.usuarios;
+        })
+      );
+  }
+
+  delete(id: string) {
+    return this.http.delete(`${this.baseUrl}usuario/${id}?token=${this.token}`);
   }
 }
