@@ -13,6 +13,8 @@ import { UsersComponent } from './users/users.component';
 import { UserListResolver } from '../resolvers/userlist.resolver';
 import { HospitalesComponent } from './hospitales/hospitales.component';
 import { HospitalesListResolver } from '../resolvers/hospitales.resolver';
+import { MedicosComponent } from './medicos/medicos.component';
+import { MedicoComponent } from './medicos/medico.component';
 
 const pagesRoutes: Routes = [
   {
@@ -67,6 +69,16 @@ const pagesRoutes: Routes = [
           busqueda: HospitalesListResolver
         },
         data: { titulo: 'Mantenimiento de hospitales' }
+      },
+      {
+        path: 'medicos',
+        component: MedicosComponent,
+        data: { titulo: 'Mantenimiento de médicos' }
+      },
+      {
+        path: 'medico/:id',
+        component: MedicoComponent,
+        data: { titulo: 'Detalles de un médico' }
       },
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
     ]

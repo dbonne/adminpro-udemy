@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { UserService } from '../user/user.service';
+import { Hospital } from '../../models/hospital.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,12 @@ export class HospitalService {
 
   findAll() {
     return this.http.get(`${this.baseUrl}hospital`);
+  }
+
+  findById(id: string): Observable<Hospital> {
+    return this.http.get<Hospital>(
+      `${this.baseUrl}hospital/${id}?token=${this.userService.token}`
+    );
   }
 
   search(term: string): Observable<any> {
